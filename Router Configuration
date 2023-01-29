@@ -1,0 +1,23 @@
+hostname ROUTER
+!
+username admin access-level 15
+username admin password 7 *
+username guest access-level 0
+username guest password 7 *
+!
+ip default-gateway 10.0.0.1
+ip telnet server
+ip http server
+ip http secure-server
+ip ssh server
+!
+ip snmp-server
+!
+ip routing
+ip routing multipath
+!
+ip route 10.100.1.0/24 10.9.1.1
+ip route 10.100.2.0/24 10.9.2.1
+!
+router ospf
+\\I'll continue this configuration file later.
