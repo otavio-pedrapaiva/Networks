@@ -1,0 +1,20 @@
+*filter
+:INPUT ACCEPT [4222560:434112035]
+:FORWARD ACCEPT [6141937:720028247]
+:OUTPUT ACCEPT [18569984:3067250663]
+-A INPUT -s 127.0.0.1/32 -j ACCEPT
+-A INPUT -i bond0.4094 -p tcp -m tcp --dport 53 -j DROP
+-A INPUT -i bond0.4094 -p udp -m udp --dport 53 -j DROP
+-A INPUT -i bond0.4094 -p tcp -m tcp --dport 22 -j ACCEPT
+-A INPUT -p icmp -m icmp --icmp-type 0 -m limit --limit 1/sec -j ACCEPT
+-A INPUT -p icmp -m icmp --icmp-type 3 -m limit --limit 1/sec -j ACCEPT
+-A INPUT -p icmp -m icmp --icmp-type 8 -m limit --limit 10/sec -j ACCEPT
+-A INPUT -p icmp -m icmp --icmp-type 11 -m limit --limit 1/sec -j ACCEPT
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -m conntrack --ctstate INVALID -j DROP
+-A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG NONE -j DROP
+-A INPUT -p tcp -m tcp --tcp-flags FIN,SYN,RST,PSH,ACK,URG FIN,SYN,RST,PSH,ACK,URG -j DROP
+-A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A FORWARD -m conntrack --ctstate INVALID -j DROP
+-A OUTPUT -m conntrack --ctstate INVALID -j DROP
+COMMIT
